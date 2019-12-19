@@ -1,0 +1,14 @@
+---
+vm_hostmanager:
+  enabled: true
+  manage_host: true
+  ignore_private_ip: false
+  include_offline: true
+
+vm_vagrant:
+  vm_define: centosvm1
+  box_name: centos/7
+  box_hostname: centosvm1.example.dev
+  private_ip: 192.168.33.10
+  memory: 2048
+  cpus: 1

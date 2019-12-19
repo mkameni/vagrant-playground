@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+require 'yaml'
+
+vconfig = YAML.load_file("default.config.yml")
+
+Vagrant.configure(2) do |config|
+    config.hostmanager.enabled = vconfig['vm_hostmanager']['enabled']
+    config.hostmanager.manage_host = vconfig['vm_hostmanager']['manage_host']
+    config.hostmanager.ignore_private_ip = vconfig['vm_hostmanager']['ignore_private_ip']
+    config.hostmanager.include_offline = vconfig['vm_hostmanager']['include_offline']
+
+    config.vm.define vconfig['vm_vagrant']['vm_define'] do |node|
+        node.vm.box = vconfig['vm_vagrant']['box_name']
+        node.vm.hostname = vconfig['vm_vagrant']['box_hostname']
+        node.vm.network "private_network", ip: vconfig['vm_vagrant']['private_ip']
+        node.vm.provider "virtualbox" do |v|
+            v.name = vconfig['vm_vagrant']['box_hostname']
+            v.memory = vconfig['vm_vagrant']['memory']
+            v.cpus = vconfig['vm_vagrant']['cpus']
+        end
+    end
+end
